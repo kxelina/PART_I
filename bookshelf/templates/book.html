@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+<main>
+  <h1>{{ book.title  }}</h1>
+    <div class="book">
+      <img src="../../static/images/default-book-cover.png" alt="Book Cover" class="book-cover">
+    
+      <p class="author"><b>Author:</b> {{ book.author }}</p>
+      <p class="description_text"><b>Description:</b> {{ book.description_text }}</p>
+      <p class="year"><b>Year:</b> {{ book.publication_year }}</p>
+      <p class="genre"><b>Genre:</b> {{ book.genre }}</p>
+
+      <form action="/review/book/{{ book.id }}" method="post" name="review" onsubmit="return validateReview()">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{ book.id }}">
+        <div class="rating">
+          <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
+          <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
+          <input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
+          <input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
+          <input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+        </div>
+        <textarea name="review_text" placeholder="Write your review"></textarea>
+        <p>
+        <input type="submit" value="Submit Review" id="showFormButton">
+      </form> 
+    </div> 
+  <div class="reviews" id="reviews">
+    <h2>Reviews</h2>
+      {% for review in reviews %}
+          <div class="review">
+              <p>{% for _ in ""|center:review.rating %}
+                    ⭐
+                {% endfor %}
+              </p>
+              <p>{{ review.review_text }}</p>
+              <p><b>By: {{ review.user }}</b></p>
+          </div>
+      {% endfor %}
+    </div>
+    <a id="backButton" href="/">back</a>
+</main>
+
+<script>
+  function validateReview() {
+    var ratingInputs = document.querySelectorAll('input[name="rating"]');
+    var ratingSelected = false;
+
+    for (var i = 0; i < ratingInputs.length; i++) {
+      if (ratingInputs[i].checked) {
+        ratingSelected = true;
+        break;
+      }
+    }
+
+    if (!ratingSelected) {
+      alert('Please select a star rating before submitting the review.');
+      return false;
+    }
+
+    return true;
+  }
+</script>
+{% endblock %}

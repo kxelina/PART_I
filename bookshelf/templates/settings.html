@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content">
+    <head>
+        <title>Settings</title>
+    </head>
+    
+    <body>
+        <h1>Settings</h1>
+
+        <form action="/settings" method="post">
+            {% csrf_token %}
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password1" id="new_password1">
+            <label for="new_password">New Password again:</label>
+            <input type="password" name="new_password2" id="new_password2">
+            <input type="submit" value="Save Changes" id="showFormButton">
+        </form>
+
+        <a id="backButton" href="/">back</a>
+    </body>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="overlay" id="overlay" onclick="hide('create_new_user_popup')"></div>
+<div class="content">
+    <img class="logo" src="/static/images/bookshelf-icon.png" alt="Bookshelf Icon">
+
+    <h1>Bookshelf</h1>
+
+    <form action="/login" method="post">
+        {% csrf_token %}
+        Username: <br><input type="text" name="username">
+        <p>
+        Password: <br><input type="password" name="password">
+        <p>
+        <input type="submit" value="Login" id="showFormButton">
+        </form>
+        <p>
+    
+    <button class="create_new_user_button" href="#" onclick="show('create_new_user_popup')" id="showFormButton">Create new user</button>
+
+    <div class="create_new_user_popup" id="create_new_user_popup">
+        <h2>New User:</h2>
+
+        <form action="/create_user" method="post">
+        {% csrf_token %}
+        Username: <br><input type="text" name="username" minlength="1" maxlength="10">
+        <p>
+        Password: <br><input type="password" name="password1">
+        <p>
+        Password again: <br><input type="password" name="password2">
+        <p>
+        <input type="submit" value="save">
+        </form>
+        
+        <p>
+        <a href="#" onclick="hide('create_new_user_popup')">Back</a>
+    </div>
+</div>
+
+<script>
+    $ = function (id) {
+        return document.getElementById(id);
+    };
+
+    var show = function (id) {
+        $(id).style.display = 'block';
+        $('overlay').style.display = 'block';
+    };
+
+    var hide = function (id) {
+        $(id).style.display = 'none';
+        $('overlay').style.display = 'none'; 
+    };
+</script>
+{% endblock %}
